@@ -212,7 +212,7 @@ qaForm.addEventListener('submit', async (e) => {
     answerContent.textContent = 'Thinking...';
 
     try {
-        const response = await fetch(`${API_URL}/api/v1/qa/`, {
+        const response = await fetch(`${API_URL}/api/v1/ask/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
