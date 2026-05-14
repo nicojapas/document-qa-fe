@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document QA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Document QA</h1>
+            <p class="subtitle">Upload a document and ask questions about it</p>
+        </header>
+
+        <section class="upload-section">
+            <h2>1. Upload Document</h2>
+            <form id="upload-form">
+                <input type="file" id="file-input" accept=".pdf,.txt,.docx" required>
+                <button type="submit" id="upload-btn">Upload</button>
+            </form>
+            <div id="upload-status" class="status"></div>
+        </section>
+
+        <section class="qa-section" id="qa-section">
+            <h2>2. Ask a Question</h2>
+            <div class="document-info" id="document-info"></div>
+            <form id="qa-form">
+                <input type="text" id="question-input" placeholder="What is this document about?" required>
+                <button type="submit" id="ask-btn">Ask</button>
+            </form>
+        </section>
+
+        <section class="answer-section" id="answer-section">
+            <h2>Answer</h2>
+            <div id="answer-content"></div>
+            <details id="sources-details">
+                <summary>Sources</summary>
+                <div id="sources-content"></div>
+            </details>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
