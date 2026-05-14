@@ -1,6 +1,8 @@
 const API_URL = 'https://document-qa-api-1.onrender.com';
 
 let currentDocumentId = null;
+let backendReady = false;
+let backendCheckPromise = null;
 
 const uploadForm = document.getElementById('upload-form');
 const uploadStatus = document.getElementById('upload-status');
@@ -17,7 +19,59 @@ const answerSection = document.getElementById('answer-section');
 const answerContent = document.getElementById('answer-content');
 const sourcesContent = document.getElementById('sources-content');
 const sampleFile = document.getElementById('sample-file');
+const backendStatusEl = document.getElementById('backend-status');
+const statusText = backendStatusEl.querySelector('.status-text');
+
 let samplePdfBlob = null;
+
+// Health check functionality
+async function checkBackendHealth() {
+    try {
+        const response = await fetch(`${API_URL}/health`, { method: 'GET' });
+        if (response.ok) {
+            backendReady = true;
+            backendStatusEl.classList.remove('error');
+            backendStatusEl.classList.add('ready');
+            statusText.textContent = 'Backend ready';
+            return true;
+        }
+    } catch (error) {
+        // Backend not ready yet
+    }
+    return false;
+}
+
+async function waitForBackend() {
+    if (backendReady) return true;
+
+    // If already checking, wait for that check
+    if (backendCheckPromise) {
+        return backendCheckPromise;
+    }
+
+    statusText.textContent = 'Waking up server...';
+
+    backendCheckPromise = new Promise(async (resolve) => {
+        const maxAttempts = 30; // ~60 seconds max
+        for (let i = 0; i < maxAttempts; i++) {
+            if (await checkBackendHealth()) {
+                resolve(true);
+                backendCheckPromise = null;
+                return;
+            }
+            await new Promise(r => setTimeout(r, 2000));
+        }
+        backendStatusEl.classList.add('error');
+        statusText.textContent = 'Backend unavailable';
+        resolve(false);
+        backendCheckPromise = null;
+    });
+
+    return backendCheckPromise;
+}
+
+// Start health check on page load
+checkBackendHealth();
 
 // Pre-fetch the sample PDF
 fetch('sample.pdf')
@@ -84,10 +138,24 @@ uploadForm.addEventListener('submit', async (e) => {
     const file = fileInput.files[0];
     if (!file) return;
 
+    uploadBtn.disabled = true;
+
+    // Wait for backend if not ready
+    if (!backendReady) {
+        uploadStatus.textContent = 'Waking up server, please wait...';
+        uploadStatus.className = 'status loading';
+        const ready = await waitForBackend();
+        if (!ready) {
+            uploadStatus.textContent = 'Server unavailable. Please try again later.';
+            uploadStatus.className = 'status error';
+            uploadBtn.disabled = false;
+            return;
+        }
+    }
+
     const formData = new FormData();
     formData.append('file', file);
 
-    uploadBtn.disabled = true;
     uploadStatus.textContent = 'Uploading and processing...';
     uploadStatus.className = 'status loading';
 
@@ -127,9 +195,21 @@ qaForm.addEventListener('submit', async (e) => {
     if (!question || !currentDocumentId) return;
 
     askBtn.disabled = true;
-    answerContent.textContent = 'Thinking...';
     answerSection.style.display = 'block';
     sourcesContent.innerHTML = '';
+
+    // Wait for backend if not ready
+    if (!backendReady) {
+        answerContent.textContent = 'Waking up server, please wait...';
+        const ready = await waitForBackend();
+        if (!ready) {
+            answerContent.textContent = 'Server unavailable. Please try again later.';
+            askBtn.disabled = false;
+            return;
+        }
+    }
+
+    answerContent.textContent = 'Thinking...';
 
     try {
         const response = await fetch(`${API_URL}/api/v1/qa/`, {

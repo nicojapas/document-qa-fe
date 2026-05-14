@@ -31,6 +31,40 @@ h1 {
     color: #666;
 }
 
+.backend-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    padding: 0.3rem 0.75rem;
+    background: #f8f9fa;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ffc107;
+    animation: pulse 1.5s infinite;
+}
+
+.backend-status.ready .status-dot {
+    background: #28a745;
+    animation: none;
+}
+
+.backend-status.error .status-dot {
+    background: #dc3545;
+    animation: none;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
 section {
     background: white;
     border-radius: 8px;
