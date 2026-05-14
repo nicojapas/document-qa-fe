@@ -1,5 +1,4 @@
-// Replace with your Render API URL
-const API_URL = 'https://your-app.onrender.com';
+const API_URL = 'https://document-qa-api-1.onrender.com/';
 
 let currentDocumentId = null;
 
