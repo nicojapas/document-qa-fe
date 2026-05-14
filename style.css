@@ -87,19 +87,51 @@ button:disabled {
     cursor: not-allowed;
 }
 
-.sample-hint {
-    margin-top: 0.75rem;
-    font-size: 0.9rem;
+.sample-file {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    background: #f8f9fa;
+    border: 1px dashed #ccc;
+    border-radius: 6px;
+    cursor: grab;
+    color: #dc3545;
+    transition: all 0.2s;
+}
+
+.sample-file:hover {
+    background: #e9ecef;
+    border-color: #007bff;
+}
+
+.sample-file:active {
+    cursor: grabbing;
+}
+
+.sample-file .pdf-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.sample-file span {
+    font-size: 0.8rem;
     color: #666;
 }
 
-.sample-hint a {
-    color: #007bff;
-    text-decoration: none;
+.sample-hint {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #888;
 }
 
-.sample-hint a:hover {
-    text-decoration: underline;
+#upload-form.drag-over {
+    outline: 2px dashed #007bff;
+    outline-offset: 4px;
+    background: #e7f1ff;
+    border-radius: 4px;
 }
 
 .status {
