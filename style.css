@@ -87,6 +87,21 @@ button:disabled {
     cursor: not-allowed;
 }
 
+.sample-hint {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.sample-hint a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.sample-hint a:hover {
+    text-decoration: underline;
+}
+
 .status {
     margin-top: 0.75rem;
     padding: 0.5rem;

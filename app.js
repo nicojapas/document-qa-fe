@@ -17,6 +17,33 @@ const documentInfo = document.getElementById('document-info');
 const answerSection = document.getElementById('answer-section');
 const answerContent = document.getElementById('answer-content');
 const sourcesContent = document.getElementById('sources-content');
+const trySampleLink = document.getElementById('try-sample');
+
+trySampleLink.addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    uploadBtn.disabled = true;
+    uploadStatus.textContent = 'Loading sample PDF...';
+    uploadStatus.className = 'status loading';
+
+    try {
+        const response = await fetch('sample.pdf');
+        const blob = await response.blob();
+        const file = new File([blob], 'sample.pdf', { type: 'application/pdf' });
+
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        fileInput.files = dataTransfer.files;
+
+        uploadStatus.textContent = 'Sample loaded! Click Upload to continue.';
+        uploadStatus.className = 'status success';
+    } catch (error) {
+        uploadStatus.textContent = `Error loading sample: ${error.message}`;
+        uploadStatus.className = 'status error';
+    } finally {
+        uploadBtn.disabled = false;
+    }
+});
 
 uploadForm.addEventListener('submit', async (e) => {
     e.preventDefault();
