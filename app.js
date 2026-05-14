@@ -74,7 +74,7 @@ async function waitForBackend() {
 checkBackendHealth();
 
 // Pre-fetch the sample PDF
-fetch('sample.pdf')
+fetch('Led_Zeppelin.pdf')
     .then(response => response.blob())
     .then(blob => { samplePdfBlob = blob; });
 
@@ -85,7 +85,7 @@ async function loadSamplePdf() {
         return;
     }
 
-    const file = new File([samplePdfBlob], 'sample.pdf', { type: 'application/pdf' });
+    const file = new File([samplePdfBlob], 'Led_Zeppelin.pdf', { type: 'application/pdf' });
     const dataTransfer = new DataTransfer();
     dataTransfer.items.add(file);
     fileInput.files = dataTransfer.files;
