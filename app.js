@@ -1,4 +1,4 @@
-const API_URL = 'https://document-qa-api-1.onrender.com/';
+const API_URL = 'https://document-qa-api-1.onrender.com';
 
 let currentDocumentId = null;
 
