@@ -79,6 +79,30 @@ h2 {
     color: #444;
 }
 
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.section-header h2 {
+    margin-bottom: 0;
+}
+
+.model-indicator {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    background: #e9ecef;
+    color: #666;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+.model-indicator:empty {
+    display: none;
+}
+
 form {
     display: flex;
     gap: 0.5rem;

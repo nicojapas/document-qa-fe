@@ -18,7 +18,10 @@
         </header>
 
         <section class="upload-section">
-            <h2>1. Upload Document</h2>
+            <div class="section-header">
+                <h2>1. Upload Document</h2>
+                <span class="model-indicator" id="upload-model"></span>
+            </div>
             <form id="upload-form">
                 <input type="file" id="file-input" accept=".pdf,.txt,.docx" required>
                 <button type="submit" id="upload-btn">Upload</button>
@@ -36,7 +39,10 @@
         </section>
 
         <section class="qa-section" id="qa-section">
-            <h2>2. Ask a Question</h2>
+            <div class="section-header">
+                <h2>2. Ask a Question</h2>
+                <span class="model-indicator" id="qa-model"></span>
+            </div>
             <div class="document-info" id="document-info"></div>
             <form id="qa-form">
                 <input type="text" id="question-input" placeholder="Who is Jimmy Page?" required>
@@ -45,7 +51,10 @@
         </section>
 
         <section class="answer-section" id="answer-section">
-            <h2>Answer</h2>
+            <div class="section-header">
+                <h2>3. Answer</h2>
+                <span class="model-indicator" id="answer-model"></span>
+            </div>
             <div id="answer-content"></div>
             <details id="sources-details">
                 <summary>Sources</summary>

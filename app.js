@@ -22,7 +22,12 @@ const sampleFile = document.getElementById('sample-file');
 const backendStatusEl = document.getElementById('backend-status');
 const statusText = backendStatusEl.querySelector('.status-text');
 
+const uploadModelEl = document.getElementById('upload-model');
+const qaModelEl = document.getElementById('qa-model');
+const answerModelEl = document.getElementById('answer-model');
+
 let samplePdfBlob = null;
+let appConfig = null;
 
 // Health check functionality
 async function checkBackendHealth() {
@@ -39,6 +44,34 @@ async function checkBackendHealth() {
         // Backend not ready yet
     }
     return false;
+}
+
+// Fetch config to get model information
+async function fetchConfig() {
+    try {
+        const response = await fetch(`${API_URL}/config`, { method: 'GET' });
+        if (response.ok) {
+            appConfig = await response.json();
+            displayModelInfo();
+        }
+    } catch (error) {
+        console.log('Could not fetch config:', error);
+    }
+}
+
+function displayModelInfo() {
+    if (!appConfig) return;
+
+    // Display embedding model for upload stage
+    if (appConfig.embedding_model) {
+        uploadModelEl.textContent = appConfig.embedding_model;
+        qaModelEl.textContent = appConfig.embedding_model;
+    }
+
+    // Display LLM model for answer stage
+    if (appConfig.llm_model) {
+        answerModelEl.textContent = appConfig.llm_model;
+    }
 }
 
 async function waitForBackend() {
@@ -70,8 +103,9 @@ async function waitForBackend() {
     return backendCheckPromise;
 }
 
-// Start health check on page load
+// Start health check and fetch config on page load
 checkBackendHealth();
+fetchConfig();
 
 // Pre-fetch the sample PDF
 fetch('Led_Zeppelin.pdf')
